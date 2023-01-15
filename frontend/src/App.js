@@ -1,23 +1,33 @@
-import logo from './logo.svg';
 import './App.css';
+import {useState} from 'react'
+import axios from 'axios'
 
 function App() {
+  const [email, setEmail] = useState("")
+
+  const sendEmail = async (e) => {
+    e.preventDefault()
+
+    const data = {
+      email
+    }
+
+    const response = await axios.post("http://localhost:5000/api/sendemail", data)
+
+    console.log(response.data)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="--flex-center --bg-primary --100vh">
+      <div className="--width-500px --card --p --bg-light">
+        <form className="--form-control" onSubmit={sendEmail}>
+          <input 
+            type="email"  
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)} />
+          <button type="submit" className= "--btn --btn-primary">Send Email</button>
+        </form>
+      </div>
     </div>
   );
 }
